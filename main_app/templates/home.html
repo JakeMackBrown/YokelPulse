@@ -1,15 +1,13 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block head %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}" />
-{% endblock %}
+
 {% block content %}
-
-<section class="logo-container">
-  <div class="cat-container">
-    <img src="{% static 'images/splash.svg' %}" alt="The Cat Collector Cat" />
-  </div>
-  <img src="{% static 'images/logotype.svg' %}" alt="Text reads: Cat Collector" />
-</section>
-
+<h1>Welcome to YokelPulse!</h1>
+<p>Discover local events and get involved in your community.</p>
+{% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}!</p>
+    <a href="{% url 'log-out' %}">Log Out</a>
+{% else %}
+    <a href="{% url 'log-in' %}">Log In</a>
+    <a href="{% url 'sign-up' %}">Sign Up</a>
+{% endif %}
 {% endblock %}
