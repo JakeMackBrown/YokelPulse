@@ -1,0 +1,37 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/events/event-index.css' %}"/>
+{% endblock %} 
+{% block content %}
+
+<section class="page-header">
+  <h1>Event List</h1>
+  <img src="{% static 'images/cool-cat.svg' %}" alt="A cool cat" />
+  <img src="{% static 'images/happy-cat.svg' %}" alt="A happy cat" />
+  <img src="{% static 'images/teacup-cat.svg' %}" alt="A cat in a teacup" />
+  <img src="{% static 'images/cat-in-box.svg' %}" alt="A cat in a box" />
+</section>
+
+<section class="card-container">
+  {% for event in events %}
+    <div class="card">
+      <div class="card-content">
+        <div class="card-img-container">
+          <img
+            src="{% static 'images/sk8r-boi-cat.svg' %}"
+            alt="A skater boy cat"
+          />
+        </div>
+        <h2 class="card-title">{{ event.title }}</h2>
+        <p><When/where: {{ event.date }} at {{ event.location }}. {{ event.category }}></p>
+        {% else %}
+        <p>{{ event.tags }}</p>
+        {% endif %}
+        <p><small>{{ event.description }}</small></p>
+      </div>
+    </div>
+  {% endfor %}
+</section>
+
+{% endblock %}
