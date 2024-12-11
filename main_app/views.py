@@ -57,6 +57,26 @@ def add_event(request):
         form = EventForm()
     return render(request, 'events/add_event.html', {'form': form})
 
+@login_required
+def edit_event(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect('event-index')
+    else:
+        form = EventForm(instance=event)
+    return render(request, 'events/edit_event.html', {'form': form, 'event': event})
+
+@login_required
+def delete_event(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    if request.method == 'POST':
+        event.delete()
+        return redirect('event-index')
+    return render(request, 'events/delete_event.html', {'event': event})
+
 # Mock Event class for demonstration
 class Event:
     def __init__(self, title, description, date, location, category, tags):
