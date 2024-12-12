@@ -12,9 +12,9 @@ def about(request):
     return render(request, 'about.html')
 
 def event_index(request):
+    events = Event.objects.all()
     return render(request, 'events/index.html', {'events': events})
 
-@login_required
 def sign_up(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -51,6 +51,7 @@ def add_event(request):
         if form.is_valid():
             event = form.save(commit=False)
             event.created_by = request.user
+            print(event)
             event.save()
             return redirect('event-index')
     else:
@@ -76,18 +77,3 @@ def delete_event(request, event_id):
         event.delete()
         return redirect('event-index')
     return render(request, 'events/delete_event.html', {'event': event})
-
-# Mock Event class for demonstration
-class Event:
-    def __init__(self, title, description, date, location, category, tags):
-        self.title = title
-        self.description = description
-        self.date = date
-        self.location = location
-        self.category = category
-        self.tags = tags
-
-# Create a list of Event instances
-events = [
-    Event('Machine Girl concert', 'Machine Girl live in concert for their new album', 'October 25th', 'The Firebird', 'Concert', 'Electronic, Grungy, Videogame music')
-]

@@ -11,8 +11,8 @@ class Event(models.Model):
     is_public = models.BooleanField(default=True)  # Visibility field
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     
-    class Meta:
-        unique_together = (('title', 'date', 'location', 'is_public'),)
+    # class Meta:
+    #     unique_together = (('title', 'date', 'location', 'is_public'),)
 
     def __str__(self):
         return self.title

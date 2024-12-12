@@ -13,3 +13,12 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ['title', 'description', 'date', 'location', 'category', 'tags', 'is_public']
+        widgets = {
+            'date': forms.DateInput(
+                format=('%Y-%m-%d'),
+                attrs={
+                    'placeholder': 'Select a date',
+                    'type': 'date'
+                }
+            ),
+        }
