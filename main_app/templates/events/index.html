@@ -1,9 +1,9 @@
-{% extends 'base.html' %} 
-{% load static %} 
+{% extends 'base.html' %}
+{% load static %}
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/events/event-index.css' %}"/>
-{% endblock %} 
+{% endblock %}
 
 {% block content %}
 <section class="page-header">
@@ -30,11 +30,27 @@
     {% for event in events %}
       <div class="card">
         <div class="card-content">
-          <h2 class="card-title">{{ event.title }}</h2>
+          <h2 class="card-title"><a href="{% url 'event-detail' event.id %}">{{ event.title }}</a></h2>
+          {% if event.image %}
+            <img src="{{ event.image.url }}" alt="{{ event.title }} image" style="max-width: 100%;">
+          {% endif %}
           <p>ID: {{ event.id }}</p>
           <p>When/where: {{ event.date }} at {{ event.location }}. {{ event.category }}</p>
           <p>{{ event.tags }}</p>
           <p><small>{{ event.description }}</small></p>
+
+          {% if user.is_authenticated %}
+            {% if event.id in event_rsvp_status %}
+              <p>You have RSVPed for this event.</p>
+            {% else %}
+              <form method="post" action="{% url 'rsvp-event' event.id %}">
+                {% csrf_token %}
+                <button type="submit">RSVP</button>
+              </form>
+            {% endif %}
+          {% else %}
+            <p>Please <a href="{% url 'login' %}">log in</a> to RSVP.</p>
+          {% endif %}
         </div>
       </div>
     {% endfor %}

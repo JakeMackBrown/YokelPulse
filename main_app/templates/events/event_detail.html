@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>{{ event.title }}</h1>
+<p>{{ event.description }}</p>
+<p>Date: {{ event.date }}</p>
+<p>Location: {{ event.location }}</p>
+<p>Category: {{ event.category }}</p>
+<p>Tags: {{ event.tags }}</p>
+<p>Created by: {{ event.created_by.username }}</p>
+<p>Visibility: {{ event.get_visibility_display }}</p>
+
+{% if user.is_authenticated %}
+  {% if event.rsvp_set.filter(user=user).exists %}
+    <p>You have RSVPed for this event.</p>
+  {% else %}
+    <form method="post" action="{% url 'rsvp-event' event.id %}">
+      {% csrf_token %}
+      <button type="submit">RSVP</button>
+    </form>
+  {% endif %}
+{% else %}
+  <p>Please <a href="{% url 'login' %}">log in</a> to RSVP.</p>
+{% endif %}
+{% endblock %}
