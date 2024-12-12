@@ -108,7 +108,8 @@ def delete_event(request, event_id):
 
 def event_detail(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
-    return render(request, 'events/event_detail.html', {'event': event})
+    user_has_rsvped = event.rsvp_set.filter(user=request.user).exists() if request.user.is_authenticated else False
+    return render(request, 'events/event_detail.html', {'event': event, 'user_has_rsvped': user_has_rsvped})
 
 @login_required
 def rsvp_event(request, event_id):

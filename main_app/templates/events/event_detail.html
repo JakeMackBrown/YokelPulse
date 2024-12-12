@@ -1,26 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content %}
-<h1>{{ event.title }}</h1>
-<p>{{ event.description }}</p>
-<p>Date: {{ event.date }}</p>
-<p>Location: {{ event.location }}</p>
-<p>Category: {{ event.category }}</p>
-<p>Tags: {{ event.tags }}</p>
-<p>Created by: {{ event.created_by.username }}</p>
-<p>Visibility: {{ event.get_visibility_display }}</p>
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/events/event-detail.css' %}"/>
+{% endblock %}
 
-{% if user.is_authenticated %}
-  {% if event.rsvp_set.filter(user=user).exists %}
-    <p>You have RSVPed for this event.</p>
-  {% else %}
-    <form method="post" action="{% url 'rsvp-event' event.id %}">
-      {% csrf_token %}
-      <button type="submit">RSVP</button>
-    </form>
+{% block content %}
+<section class="page-header">
+  <h1>{{ event.title }}</h1>
+</section>
+
+<section class="event-detail">
+  {% if event.image %}
+    <img src="{{ event.image.url }}" alt="{{ event.title }} image" style="max-width: 100%;">
   {% endif %}
-{% else %}
-  <p>Please <a href="{% url 'login' %}">log in</a> to RSVP.</p>
-{% endif %}
+  <p>ID: {{ event.id }}</p>
+  <p>When/where: {{ event.date }} at {{ event.location }}. {{ event.category }}</p>
+  <p>{{ event.tags }}</p>
+  <p><small>{{ event.description }}</small></p>
+
+  {% if user.is_authenticated %}
+    {% if user_has_rsvped %}
+      <p>You have RSVPed for this event.</p>
+    {% else %}
+      <form method="post" action="{% url 'rsvp-event' event.id %}">
+        {% csrf_token %}
+        <button type="submit">RSVP</button>
+      </form>
+    {% endif %}
+  {% else %}
+    <p>Please <a href="{% url 'login' %}">log in</a> to RSVP.</p>
+  {% endif %}
+</section>
 {% endblock %}
