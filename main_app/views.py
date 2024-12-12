@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from .forms import SignUpForm, EventForm
 from .models import Event
 
@@ -12,8 +13,30 @@ def about(request):
     return render(request, 'about.html')
 
 def event_index(request):
-    events = Event.objects.all()
-    return render(request, 'events/index.html', {'events': events})
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            events = Event.objects.all()
+        else:
+            events = Event.objects.filter(
+                Q(is_public=True) | Q(created_by=request.user)
+            )
+    else:
+        events = Event.objects.filter(is_public=True)
+
+    category = request.GET.get('category')
+    tags = request.GET.get('tags')
+
+    # Get distinct categories
+    categories = Event.objects.values_list('category', flat=True).distinct()
+
+    if category:
+        events = events.filter(category=category)
+    if tags:
+        events = events.filter(tags__icontains=tags)
+
+    return render(request, 'events/index.html', {'events': events, 'category': category, 'tags': tags, 'categories': categories})
+
+
 
 def sign_up(request):
     if request.method == 'POST':
@@ -51,7 +74,6 @@ def add_event(request):
         if form.is_valid():
             event = form.save(commit=False)
             event.created_by = request.user
-            print(event)
             event.save()
             return redirect('event-index')
     else:

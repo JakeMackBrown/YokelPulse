@@ -10,13 +10,28 @@
   <h1>Event List</h1>
 </section>
 
+<form method="get" action="{% url 'event-index' %}">
+    <label for="category">Category:</label>
+    <select id="category" name="category">
+        <option value="">All</option>
+        {% for category in categories %}
+        <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="tags">Tags:</label>
+    <input type="text" id="tags" name="tags" value="{{ tags }}">
+
+    <button type="submit">Filter</button>
+</form>
+
 <section class="card-container">
   {% if events %}
     {% for event in events %}
       <div class="card">
         <div class="card-content">
           <h2 class="card-title">{{ event.title }}</h2>
-          <p>ID: {{ event.id }}</p> <!-- Display Event ID -->
+          <p>ID: {{ event.id }}</p>
           <p>When/where: {{ event.date }} at {{ event.location }}. {{ event.category }}</p>
           <p>{{ event.tags }}</p>
           <p><small>{{ event.description }}</small></p>
