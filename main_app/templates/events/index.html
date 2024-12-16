@@ -35,7 +35,9 @@
             <img src="{{ event.image.url }}" alt="{{ event.title }} image" style="max-width: 100%;">
           {% endif %}
           <p>ID: {{ event.id }}</p>
-          <p>When/where: {{ event.date }} at {{ event.location }}. {{ event.category }}</p>
+          <p>When: {{ event.date }}</p>
+          <p>Where: {{ event.location }}</p>
+          <p>Category: {{ event.category }}</p>
           <p>{{ event.tags }}</p>
           <p><small>{{ event.description }}</small></p>
 
