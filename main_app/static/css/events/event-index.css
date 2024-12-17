@@ -1,39 +1,61 @@
+/* Specific Styling for Event Page */
 .card-container {
-    padding: 0 30px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .card {
-    width: 275px;
-    margin: 10px;
-    border: var(--borders);
-    box-shadow: var(--card-box-shadow);
-  }
-  
-  .card-content {
-    padding: 10px;
-    width: 100%;
-  }
-  
-  .usr-img {
-    width: 100%;
-    border-radius: var(--card-border-radius);
-  }
-  
-  .card > a {
-    text-decoration: none;
-    color: var(--text-color);
-  }
-  
-  .card h2 {
-    margin: 10px 0;
-    font-size: var(--font-xl);
-  }
-  
-  .card p {
-    margin: 5px 0;
-    font-size: var(--font-reg);
-  }
-  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 1rem;
+  padding: 0 30px;
+  background-color: #1d2813; /* Dark Green Background from logo */
+}
+
+.card {
+  background-color: #232a1d; /* Darker Green */
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  flex: 1 0 30%;
+  margin: 10px;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card-content {
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  color: #9ca75f; /* Light Green Text */
+}
+
+.card-title {
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+  color: #1364a7; /* Bright Blue */
+}
+
+.card img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.card > a {
+  text-decoration: none;
+  color: #1364a7; /* Bright Blue */
+}
+
+.card a:hover {
+  text-decoration: underline;
+  color: #0e3b61; /* Darker Blue */
+}
+
+.card h2 {
+  margin: 10px 0;
+}
+
+.card p {
+  margin: 5px 0;
+}

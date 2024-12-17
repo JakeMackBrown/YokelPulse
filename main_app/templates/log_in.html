@@ -1,6 +1,13 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log In</button>
-  </form>
-  
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Log In</h2>
+    <form method="POST" action="{% url 'log-in' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Log In">
+    </form>
+</div>
+{% endblock %}
