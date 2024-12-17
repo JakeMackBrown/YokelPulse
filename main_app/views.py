@@ -4,7 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .forms import SignUpForm, EventForm
-from .models import Event, RSVP  # Ensure RSVP is imported
+from .models import Event, RSVP
+from django.http import HttpResponseForbidden
 
 def home(request):
     return render(request, 'home.html')
@@ -29,19 +30,18 @@ def event_index(request):
     if tags:
         events = events.filter(tags__icontains=tags)
 
-    categories = Event.objects.values_list('category', flat=True).distinct()  # Get distinct categories
+    categories = Event.objects.values_list('category', flat=True).distinct()
 
-    # Add RSVP status to the context
     event_rsvp_status = {}
     for event in events:
         event_rsvp_status[event.id] = event.rsvp_set.filter(user=request.user).exists() if request.user.is_authenticated else False
 
     return render(request, 'events/index.html', {
         'events': events,
-        'categories': categories,  # Pass categories to the template
+        'categories': categories,
         'tags': tags,
         'selected_category': category,
-        'event_rsvp_status': event_rsvp_status,  # Pass RSVP status to the template
+        'event_rsvp_status': event_rsvp_status,
     })
 
 def sign_up(request):
@@ -76,7 +76,7 @@ def log_out(request):
 @login_required
 def add_event(request):
     if request.method == 'POST':
-        form = EventForm(request.POST, request.FILES)  # Include files for image upload
+        form = EventForm(request.POST, request.FILES)
         if form.is_valid():
             event = form.save(commit=False)
             event.created_by = request.user
@@ -89,8 +89,11 @@ def add_event(request):
 @login_required
 def edit_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
+    if event.created_by != request.user:
+        return HttpResponseForbidden()
+    
     if request.method == 'POST':
-        form = EventForm(request.POST, request.FILES, instance=event)  # Include files for image upload
+        form = EventForm(request.POST, request.FILES, instance=event)
         if form.is_valid():
             form.save()
             return redirect('event-index')
@@ -101,6 +104,9 @@ def edit_event(request, event_id):
 @login_required
 def delete_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
+    if event.created_by != request.user:
+        return HttpResponseForbidden()
+    
     if request.method == 'POST':
         event.delete()
         return redirect('event-index')

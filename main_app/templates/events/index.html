@@ -10,6 +10,11 @@
   <h1>Event List</h1>
 </section>
 
+<!-- Add Event Button for Logged-In Users -->
+{% if user.is_authenticated %}
+  <a href="{% url 'add-event' %}" class="btn btn-primary">Add Event</a>
+{% endif %}
+
 <form method="get" action="{% url 'event-index' %}">
     <label for="category">Category:</label>
     <select id="category" name="category">
@@ -41,6 +46,7 @@
           <p>{{ event.tags }}</p>
           <p><small>{{ event.description }}</small></p>
 
+          <!-- RSVP and Authentication Logic -->
           {% if user.is_authenticated %}
             {% if event.id in event_rsvp_status %}
               <p>You have RSVPed for this event.</p>
@@ -48,6 +54,15 @@
               <form method="post" action="{% url 'rsvp-event' event.id %}">
                 {% csrf_token %}
                 <button type="submit">RSVP</button>
+              </form>
+            {% endif %}
+            
+            <!-- Edit and Delete Buttons for Event Creator -->
+            {% if event.created_by == user %}
+              <a href="{% url 'edit-event' event.id %}" class="btn btn-secondary">Edit</a>
+              <form method="post" action="{% url 'delete-event' event.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
               </form>
             {% endif %}
           {% else %}
