@@ -34,7 +34,10 @@ def event_index(request):
 
     event_rsvp_status = {}
     for event in events:
-        event_rsvp_status[event.id] = event.rsvp_set.filter(user=request.user).exists() if request.user.is_authenticated else False
+        if request.user.is_authenticated:
+            event_rsvp_status[event.id] = event.rsvp_set.filter(user=request.user).exists()
+        else:
+            event_rsvp_status[event.id] = False
 
     return render(request, 'events/index.html', {
         'events': events,
@@ -120,5 +123,10 @@ def event_detail(request, event_id):
 @login_required
 def rsvp_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
-    RSVP.objects.get_or_create(event=event, user=request.user)
-    return redirect('event-index')
+    rsvp, created = RSVP.objects.get_or_create(event=event, user=request.user)
+    if created:
+        message = "You have successfully RSVP'd for this event."
+    else:
+        rsvp.delete()
+        message = "You have cancelled your RSVP."
+    return redirect('event-detail', event_id=event.id)

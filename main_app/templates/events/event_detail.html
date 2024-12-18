@@ -21,11 +21,15 @@
 
   {% if user.is_authenticated %}
     {% if user_has_rsvped %}
-      <p>You have RSVPed for this event.</p>
+      <p>You have RSVP'd for this event.</p>
+      <form method="post" action="{% url 'rsvp-event' event.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Cancel RSVP</button>
+      </form>
     {% else %}
       <form method="post" action="{% url 'rsvp-event' event.id %}">
         {% csrf_token %}
-        <button type="submit">RSVP</button>
+        <button type="submit" class="btn btn-primary">RSVP to this Event</button>
       </form>
     {% endif %}
   {% else %}

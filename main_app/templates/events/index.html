@@ -48,12 +48,16 @@
 
           <!-- RSVP and Authentication Logic -->
           {% if user.is_authenticated %}
-            {% if event.id in event_rsvp_status %}
-              <p>You have RSVPed for this event.</p>
+            {% if event_rsvp_status|default_if_none:'' == True %}
+              <p>You have RSVP'd for this event.</p>
+              <form method="post" action="{% url 'rsvp-event' event.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-rsvp">Cancel RSVP</button>
+              </form>
             {% else %}
               <form method="post" action="{% url 'rsvp-event' event.id %}">
                 {% csrf_token %}
-                <button type="submit">RSVP</button>
+                <button type="submit" class="btn-rsvp">RSVP</button>
               </form>
             {% endif %}
             

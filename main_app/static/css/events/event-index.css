@@ -59,3 +59,22 @@
 .card p {
   margin: 5px 0;
 }
+
+/* RSVP Button Styling */
+.btn-rsvp {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  margin: 0.5rem 0;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+  background-color: #00A15E; /* Primary Green */
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-rsvp:hover {
+  background-color: #637436; /* Light Green from logo text */
+  transform: translateY(-2px);
+}
