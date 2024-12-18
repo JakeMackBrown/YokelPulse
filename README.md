@@ -18,7 +18,6 @@ YokelPulse is a dynamic web application designed to bridge the gap between local
 - **Programming Language**: Python
 - **Framework**: Django
 - **Front-end**: HTML, CSS, JavaScript
-- **Styling**: Bootstrap, custom CSS
 - **Database**: SQLite (default), can be configured for PostgreSQL or MySQL
 - **Authentication**: Django Allauth
 - **Version Control**: Git
@@ -32,11 +31,6 @@ YokelPulse is a dynamic web application designed to bridge the gap between local
 - **Advanced Search Filters**: Add more detailed search filters (e.g., price range, event duration, etc.) to refine event discovery.
 - **Integration with Local Businesses**: Partner with local businesses to offer exclusive deals and discounts for event attendees.
 - **Community Forums**: Introduce community forums for users to discuss events and share experiences.
-
-## Usage
-1. Open your browser and navigate to `http://127.0.0.1:8000/`.
-2. Sign up or log in to access your personalized dashboard.
-3. Browse events, create your own, and engage with the community.
 
 ## Trello Board
 https://trello.com/invite/b/675716823590861ae7cd378d/ATTI500a185fc0a38a74ace9f1e13a9d6068FAA011AD/yokelpulse
