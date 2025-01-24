@@ -13,4 +13,5 @@ urlpatterns = [
     path('signup/', views.sign_up, name='sign-up'),
     path('login/', views.log_in, name='log-in'),
     path('logout/', views.log_out, name='log-out'),
+    path('search/', views.search, name='search'),
 ]

@@ -148,3 +148,27 @@ body {
     background-color: #1d2813; /* Dark Green */
   }
   
+/* Add this to base.css for centering the search form */
+.search-form-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px; /* Optional: Limit the maximum width */
+  margin: 0 auto;
+}
+
+.search-form input[type="text"] {
+  flex-grow: 1; /* Allow the input to grow */
+  margin-right: 5px;
+}
+
+.search-form button {
+  flex-shrink: 0; /* Prevent the button from shrinking */
+}

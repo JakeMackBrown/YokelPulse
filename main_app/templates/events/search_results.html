@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-header">
+  <h1>Search Results</h1>
+</section>
+
+<section class="event-list">
+  {% if events %}
+    <ul>
+      {% for event in events %}
+        <li>
+          <a href="{% url 'event-detail' event.id %}">{{ event.title }}</a>
+          <p>{{ event.date }} at {{ event.location }}</p>
+          <p>{{ event.description|truncatewords:20 }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No events found matching your query.</p>
+  {% endif %}
+</section>
+{% endblock %}

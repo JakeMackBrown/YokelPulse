@@ -130,3 +130,15 @@ def rsvp_event(request, event_id):
         rsvp.delete()
         message = "You have cancelled your RSVP."
     return redirect('event-detail', event_id=event.id)
+
+def search(request):
+    query = request.GET.get('q')
+    if query:
+        events = Event.objects.filter(
+            Q(title__icontains=query) | 
+            Q(description__icontains=query) |
+            Q(location__icontains=query)
+        )
+    else:
+        events = Event.objects.none()
+    return render(request, 'events/search_results.html', {'events': events})
