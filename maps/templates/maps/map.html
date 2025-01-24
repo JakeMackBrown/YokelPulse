@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Map</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap" async defer></script>
+    <script type="text/javascript">
+        function initMap() {
+            var mapOptions = {
+                zoom: 12,
+                center: { lat: 38.6270, lng: -90.1994 },
+            };
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+            // Parse the JSON string to a JavaScript object
+            var events = JSON.parse('{{ events|escapejs }}');
+            events.forEach(function(event) {
+                var marker = new google.maps.Marker({
+                    position: { lat: event.lat, lng: event.lng },
+                    map: map,
+                    title: event.name
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Event Locations</h1>
+    <div id="map" style="width:100%;height:500px;"></div>
+</body>
+</html>
