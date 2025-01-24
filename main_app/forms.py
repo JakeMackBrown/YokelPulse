@@ -12,7 +12,7 @@ class SignUpForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['title', 'description', 'date', 'location', 'category', 'tags', 'is_public']
+        fields = ['title', 'description', 'date', 'location', 'category', 'tags', 'is_public', 'image']  # Include the image field
         widgets = {
             'date': forms.DateInput(
                 format=('%Y-%m-%d'),

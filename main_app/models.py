@@ -10,6 +10,7 @@ class Event(models.Model):
     tags = models.CharField(max_length=200)
     is_public = models.BooleanField(default=True)  # Visibility field
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='events/images/', null=True, blank=True)  # New field for event image
 
     def __str__(self):
         return self.title

@@ -79,7 +79,7 @@ def log_out(request):
 @login_required
 def add_event(request):
     if request.method == 'POST':
-        form = EventForm(request.POST, request.FILES)
+        form = EventForm(request.POST, request.FILES)  # Include request.FILES
         if form.is_valid():
             event = form.save(commit=False)
             event.created_by = request.user
@@ -96,7 +96,7 @@ def edit_event(request, event_id):
         return HttpResponseForbidden()
     
     if request.method == 'POST':
-        form = EventForm(request.POST, request.FILES, instance=event)
+        form = EventForm(request.POST, request.FILES, instance=event)  # Include request.FILES
         if form.is_valid():
             form.save()
             return redirect('event-index')

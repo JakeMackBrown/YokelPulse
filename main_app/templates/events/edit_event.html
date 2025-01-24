@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>Edit Event</h1>
-<form method="post">
+<form method="post" enctype="multipart/form-data"> <!-- Add enctype attribute -->
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Save Changes</button>
