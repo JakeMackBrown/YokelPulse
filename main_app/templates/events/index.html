@@ -30,6 +30,13 @@
     <button type="submit">Filter</button>
 </form>
 
+<!-- Display Error Message if Any -->
+{% if error %}
+  <div class="error-message">
+    <p>Error: {{ error }}</p>
+  </div>
+{% endif %}
+
 <section class="card-container">
   {% if events %}
     {% for event in events %}
@@ -60,7 +67,7 @@
                 <button type="submit" class="btn-rsvp">RSVP</button>
               </form>
             {% endif %}
-            
+
             <!-- Edit and Delete Buttons for Event Creator -->
             {% if event.created_by == user %}
               <a href="{% url 'edit-event' event.id %}" class="btn btn-secondary">Edit</a>
