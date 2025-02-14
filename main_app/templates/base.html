@@ -9,15 +9,20 @@
     <link rel="stylesheet" href="{% static 'css/events/event-index.css' %}"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"/>
 </head>
-<body>
+<body class="{% if request.path == '/' %}home{% endif %}">
     <header>
         <nav>
-            <img src="{% static 'images/logo.png' %}" alt="YokelPulse Logo" class="logo"/>
-            <ul>
+            <div class="logo-container">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="YokelPulse Logo" class="logo">
+                </a>
+            </div>
+            <ul class="nav-links">
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
                 <li><a href="{% url 'event-index' %}">Events</a></li>
                 {% if user.is_authenticated %}
+                    <li><a href="{% url 'add-event' %}">Add Event</a></li>
                     <li><a href="{% url 'log-out' %}">Log Out</a></li>
                 {% else %}
                     <li><a href="{% url 'log-in' %}">Log In</a></li>
@@ -25,12 +30,10 @@
                 {% endif %}
             </ul>
             {% if not request.path == '/login/' and not request.path == '/signup/' %}
-            <div class="search-form-wrapper">
-                <form method="get" action="{% url 'search' %}" class="search-form">
-                    <input type="text" name="q" placeholder="Search events...">
-                    <button type="submit">Search</button>
-                </form>
-            </div>
+            <form method="get" action="{% url 'search' %}" class="search-form">
+                <input type="text" name="q" placeholder="Search events...">
+                <button type="submit">Search</button>
+            </form>
             {% endif %}
         </nav>
     </header>
@@ -39,7 +42,7 @@
         {% endblock %}
     </main>
     <footer>
-        <p>&copy; 2024 YokelPulse. All rights reserved.</p>
+        <p>&copy; 2025 YokelPulse. All rights reserved.</p>
     </footer>
 </body>
 </html>
